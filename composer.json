@@ -1,33 +1,22 @@
 {
-    "name": "zendframework/zend-file",
+    "name": "laminas/laminas-file",
     "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "file"
     ],
-    "homepage": "https://github.com/zendframework/zend-file",
-    "autoload": {
-        "psr-4": {
-            "Zend\\File\\": "src/"
-        }
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-file/",
+        "issues": "https://github.com/laminas/laminas-file/issues",
+        "source": "https://github.com/laminas/laminas-file",
+        "rss": "https://github.com/laminas/laminas-file/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
-    "require": {
-        "php": ">=5.3.3",
-        "zendframework/zend-stdlib": "self.version"
-    },
-    "require-dev": {
-        "zendframework/zend-filter": "self.version",
-        "zendframework/zend-i18n": "self.version",
-        "zendframework/zend-validator": "self.version",
-        "fabpot/php-cs-fixer": "1.7.*",
-        "satooshi/php-coveralls": "dev-master",
-        "phpunit/PHPUnit": "~4.0"
-    },
-    "suggest": {
-        "zendframework/zend-filter": "Zend\\Filter component",
-        "zendframework/zend-i18n": "Zend\\I18n component",
-        "zendframework/zend-validator": "Zend\\Validator component"
+    "config": {
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
@@ -35,9 +24,35 @@
             "dev-develop": "2.3-dev"
         }
     },
+    "require": {
+        "php": ">=5.3.3",
+        "laminas/laminas-stdlib": "self.version",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "1.7.*",
+        "laminas/laminas-filter": "self.version",
+        "laminas/laminas-i18n": "self.version",
+        "laminas/laminas-validator": "self.version",
+        "phpunit/phpunit": "~4.0",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "suggest": {
+        "laminas/laminas-filter": "Laminas\\Filter component",
+        "laminas/laminas-i18n": "Laminas\\I18n component",
+        "laminas/laminas-validator": "Laminas\\Validator component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\File\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\File\\": "test/"
+            "LaminasTest\\File\\": "test/"
         }
+    },
+    "replace": {
+        "zendframework/zend-file": "self.version"
     }
 }
