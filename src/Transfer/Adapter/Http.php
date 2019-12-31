@@ -1,19 +1,18 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\File\Transfer\Adapter;
+namespace Laminas\File\Transfer\Adapter;
 
-use Zend\File\Transfer;
-use Zend\File\Transfer\Exception;
-use Zend\ProgressBar;
-use Zend\ProgressBar\Adapter;
-use Zend\Validator;
+use Laminas\File\Transfer;
+use Laminas\File\Transfer\Exception;
+use Laminas\ProgressBar;
+use Laminas\ProgressBar\Adapter;
+use Laminas\Validator;
 
 /**
  * File transfer adapter class for the HTTP protocol
@@ -294,7 +293,7 @@ class Http extends AbstractAdapter
             throw new Exception\PhpEnvironmentException('Neither APC nor UploadProgress extension installed');
         }
 
-        $session = 'Zend\File\Transfer\Adapter\Http\ProgressBar';
+        $session = 'Laminas\File\Transfer\Adapter\Http\ProgressBar';
         $status  = [
             'total'    => 0,
             'current'  => 0,
