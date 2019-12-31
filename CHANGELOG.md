@@ -6,18 +6,18 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#25](https://github.com/zendframework/zend-file/pull/25) adds and publishes
-  documentation to https://zendframework.github.io/zend-file/
+- [zendframework/zend-file#25](https://github.com/zendframework/zend-file/pull/25) adds and publishes
+  documentation to https://docs.laminas.dev/laminas-file/
 
 ### Deprecated
 
-- [#25](https://github.com/zendframework/zend-file/pull/25) deprecates the
-  `Zend\File\Transfer` subcomponent. Its functionality is now split between each
+- [zendframework/zend-file#25](https://github.com/zendframework/zend-file/pull/25) deprecates the
+  `Laminas\File\Transfer` subcomponent. Its functionality is now split between each
   of:
-  - zend-filter, for moving uploaded files to their final location, renaming
+  - laminas-filter, for moving uploaded files to their final location, renaming
     them, and potentially transforming them.
-  - zend-validator, for validating upload succes, file type, hash, etc.
-  - zend-progressbar, for managing upload status.
+  - laminas-validator, for validating upload succes, file type, hash, etc.
+  - laminas-progressbar, for managing upload status.
 
 ### Removed
 
@@ -43,9 +43,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#21](https://github.com/zendframework/zend-file/pull/21) updates the codebase
-  to re-enable tests against zend-progressbar, and fixes static calls inside
-  `Zend\File\Transfer\Adapter\Http::getProgress` for testing APC and/or
+- [zendframework/zend-file#21](https://github.com/zendframework/zend-file/pull/21) updates the codebase
+  to re-enable tests against laminas-progressbar, and fixes static calls inside
+  `Laminas\File\Transfer\Adapter\Http::getProgress` for testing APC and/or
   uploadprogress availability to ensure they work correctly.
 
 ## 2.6.0 - 2016-02-17
@@ -64,8 +64,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#18](https://github.com/zendframework/zend-file/pull/18) updates the codebase
-  to be forwards compatible with zend-servicemanager and zend-stdlib v3.
+- [zendframework/zend-file#18](https://github.com/zendframework/zend-file/pull/18) updates the codebase
+  to be forwards compatible with laminas-servicemanager and laminas-stdlib v3.
 
 ## 2.5.2 - 2016-02-16
 
@@ -83,11 +83,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- [#13](https://github.com/zendframework/zend-file/pull/13) fixes the behavior
-  of the `Zend\File\Transfer` component when multiple uploads using the same
+- [zendframework/zend-file#13](https://github.com/zendframework/zend-file/pull/13) fixes the behavior
+  of the `Laminas\File\Transfer` component when multiple uploads using the same
   client name are provided, and no filename filtering is performed; the code now
   ensures that unique names are used in such situations.
-- [#14](https://github.com/zendframework/zend-file/pull/14) updates the
-  `FilterPluginManager` to work with the updated zend-filter 2.6.0 changes,
-  fixing an issue where the zend-file filters were replacing (instead of
-  merging) with those in the parent zend-filter implementation.
+- [zendframework/zend-file#14](https://github.com/zendframework/zend-file/pull/14) updates the
+  `FilterPluginManager` to work with the updated laminas-filter 2.6.0 changes,
+  fixing an issue where the laminas-file filters were replacing (instead of
+  merging) with those in the parent laminas-filter implementation.
