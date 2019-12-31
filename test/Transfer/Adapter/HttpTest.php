@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File\Transfer\Adapter;
+namespace LaminasTest\File\Transfer\Adapter;
 
-use Zend\File\Transfer\Adapter;
-use Zend\File\Transfer\Exception\RuntimeException;
-use Zend\ProgressBar\Adapter as AdapterProgressBar;
-use Zend\Validator\File as FileValidator;
+use Laminas\File\Transfer\Adapter;
+use Laminas\File\Transfer\Exception\RuntimeException;
+use Laminas\ProgressBar\Adapter as AdapterProgressBar;
+use Laminas\Validator\File as FileValidator;
 
 /**
- * Test class for Zend\File\Transfer\Adapter\Http
+ * Test class for Laminas\File\Transfer\Adapter\Http
  *
- * @group      Zend_File
+ * @group      Laminas_File
  */
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,18 +62,18 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
         $this->adapter->setValidators($validators);
         $test = $this->adapter->getValidator('Upload');
-        $this->assertInstanceOf('Zend\Validator\File\Upload', $test);
+        $this->assertInstanceOf('Laminas\Validator\File\Upload', $test);
     }
 
     public function testSendingFiles()
     {
-        $this->setExpectedException('Zend\File\Transfer\Exception\BadMethodCallException', 'not implemented');
+        $this->setExpectedException('Laminas\File\Transfer\Exception\BadMethodCallException', 'not implemented');
         $this->adapter->send();
     }
 
     public function testFileIsSent()
     {
-        $this->setExpectedException('Zend\File\Transfer\Exception\BadMethodCallException', 'not implemented');
+        $this->setExpectedException('Laminas\File\Transfer\Exception\BadMethodCallException', 'not implemented');
         $this->adapter->isSent();
     }
 
@@ -236,7 +235,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('id', $status);
         $this->assertArrayHasKey('message', $status);
         $this->assertArrayHasKey('progress', $status);
-        $this->assertInstanceOf('Zend\ProgressBar\ProgressBar', $status['progress']);
+        $this->assertInstanceOf('Laminas\ProgressBar\ProgressBar', $status['progress']);
 
         $this->adapter->switchApcToUP();
         $status = HttpTestMockAdapter::getProgress($status);
@@ -246,7 +245,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('id', $status);
         $this->assertArrayHasKey('message', $status);
         $this->assertArrayHasKey('progress', $status);
-        $this->assertInstanceOf('Zend\ProgressBar\ProgressBar', $status['progress']);
+        $this->assertInstanceOf('Laminas\ProgressBar\ProgressBar', $status['progress']);
     }
 
     public function testValidationOfPhpExtendsFormError()
