@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File\Transfer\Adapter;
+namespace LaminasTest\File\Transfer\Adapter;
 
-use Zend\File\Transfer\Adapter;
-use Zend\File\Transfer\Exception\BadMethodCallException;
-use Zend\File\Transfer\Exception\RuntimeException;
-use Zend\ProgressBar;
-use Zend\Validator;
+use Laminas\File\Transfer\Adapter;
+use Laminas\File\Transfer\Exception\BadMethodCallException;
+use Laminas\File\Transfer\Exception\RuntimeException;
+use Laminas\ProgressBar;
+use Laminas\Validator;
 
 /**
- * Test class for Zend\File\Transfer\Adapter\Http
+ * Test class for Laminas\File\Transfer\Adapter\Http
  *
- * @group      Zend_File
+ * @group      Laminas_File
  */
 class HttpTest extends \PHPUnit_Framework_TestCase
 {

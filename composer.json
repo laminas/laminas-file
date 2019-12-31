@@ -1,51 +1,58 @@
 {
-    "name": "zendframework/zend-file",
+    "name": "laminas/laminas-file",
     "description": " ",
     "license": "BSD-3-Clause",
     "keywords": [
-        "zf2",
+        "laminas",
         "file"
     ],
-    "homepage": "https://github.com/zendframework/zend-file",
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-file/",
+        "issues": "https://github.com/laminas/laminas-file/issues",
+        "source": "https://github.com/laminas/laminas-file",
+        "rss": "https://github.com/laminas/laminas-file/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
     "config": {
         "sort-packages": true
     },
-    "autoload": {
-        "psr-4": {
-            "Zend\\File\\": "src/"
-        }
-    },
-    "require": {
-        "php": "^5.5 || ^7.0",
-        "zendframework/zend-stdlib": "^2.7 || ^3.0"
-    },
-    "require-dev": {
-        "fabpot/php-cs-fixer": "1.7.*",
-        "phpunit/phpunit": "~4.0",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-filter": "^2.6.1",
-        "zendframework/zend-i18n": "^2.6",
-        "zendframework/zend-progressbar": "^2.5.2",
-        "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-        "zendframework/zend-session": "^2.6.2",
-        "zendframework/zend-validator": "^2.6"
-    },
-    "suggest": {
-        "zendframework/zend-filter": "Zend\\Filter component",
-        "zendframework/zend-i18n": "Zend\\I18n component",
-        "zendframework/zend-validator": "Zend\\Validator component"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "branch-alias": {
             "dev-master": "2.7-dev",
             "dev-develop": "2.8-dev"
         }
     },
+    "require": {
+        "php": "^5.5 || ^7.0",
+        "laminas/laminas-stdlib": "^2.7 || ^3.0",
+        "laminas/laminas-zendframework-bridge": "^1.0"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "1.7.*",
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-filter": "^2.6.1",
+        "laminas/laminas-i18n": "^2.6",
+        "laminas/laminas-progressbar": "^2.5.2",
+        "laminas/laminas-servicemanager": "^2.7.5 || ^3.0.3",
+        "laminas/laminas-session": "^2.6.2",
+        "laminas/laminas-validator": "^2.6",
+        "phpunit/phpunit": "~4.0"
+    },
+    "suggest": {
+        "laminas/laminas-filter": "Laminas\\Filter component",
+        "laminas/laminas-i18n": "Laminas\\I18n component",
+        "laminas/laminas-validator": "Laminas\\Validator component"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\File\\": "src/"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\File\\": "test/"
+            "LaminasTest\\File\\": "test/"
         }
     },
     "scripts": {
@@ -58,5 +65,8 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "upload-coverage": "coveralls -v"
+    },
+    "replace": {
+        "zendframework/zend-file": "self.version"
     }
 }
