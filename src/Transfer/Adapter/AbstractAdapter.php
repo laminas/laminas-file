@@ -1,29 +1,28 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\File\Transfer\Adapter;
+namespace Laminas\File\Transfer\Adapter;
 
 use ErrorException;
-use Zend\File\Transfer;
-use Zend\File\Transfer\Exception;
-use Zend\Filter;
-use Zend\Filter\Exception as FilterException;
-use Zend\I18n\Translator\TranslatorInterface as Translator;
-use Zend\I18n\Translator\TranslatorAwareInterface;
-use Zend\Stdlib\ErrorHandler;
-use Zend\Validator;
+use Laminas\File\Transfer;
+use Laminas\File\Transfer\Exception;
+use Laminas\Filter;
+use Laminas\Filter\Exception as FilterException;
+use Laminas\I18n\Translator\TranslatorAwareInterface;
+use Laminas\I18n\Translator\TranslatorInterface as Translator;
+use Laminas\Stdlib\ErrorHandler;
+use Laminas\Validator;
 
 /**
  * Abstract class for file transfers (Downloads and Uploads)
  *
  * This class needs a full rewrite. It re-implements functionality present in
- * Zend\Filter\Input and/or Zend\Form\Element, and in a way that's inconsistent
+ * Laminas\Filter\Input and/or Laminas\Form\Element, and in a way that's inconsistent
  * with either one. Additionally, plugin loader usage is now deprecated -- but
  * modifying that should be done in tandem with a rewrite to utilize validator
  * and filter chains instead.
@@ -299,7 +298,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
         if (!$validator instanceof Validator\ValidatorInterface) {
             throw new Exception\InvalidArgumentException(
                 'Invalid validator provided to addValidator; ' .
-                'must be string or Zend\Validator\ValidatorInterface'
+                'must be string or Laminas\Validator\ValidatorInterface'
             );
         }
 
@@ -586,8 +585,8 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
         $break           = false;
         foreach ($check as $content) {
             if (array_key_exists('validators', $content) &&
-                in_array('Zend\Validator\File\Count', $content['validators'])) {
-                $validator = $this->validators['Zend\Validator\File\Count'];
+                in_array('Laminas\Validator\File\Count', $content['validators'])) {
+                $validator = $this->validators['Laminas\Validator\File\Count'];
                 $count     = $content;
                 if (empty($content['tmp_name'])) {
                     continue;
@@ -623,7 +622,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
                         $validator->setTranslator($translator);
                     }
 
-                    if (($class === 'Zend\Validator\File\Upload') && (empty($content['tmp_name']))) {
+                    if (($class === 'Laminas\Validator\File\Upload') && (empty($content['tmp_name']))) {
                         $tocheck = $key;
                     } else {
                         $tocheck = $content['tmp_name'];
@@ -638,7 +637,7 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
                         break;
                     }
 
-                    if (($class === 'Zend\Validator\File\Upload') && (count($fileerrors) > 0)) {
+                    if (($class === 'Laminas\Validator\File\Upload') && (count($fileerrors) > 0)) {
                         break;
                     }
 
@@ -916,9 +915,9 @@ abstract class AbstractAdapter implements TranslatorAwareInterface
     }
 
     /**
-     * Retrieve additional internal file informations for files
+     * Retrieve additional internal file information for files
      *
-     * @param  string $file (Optional) File to get informations for
+     * @param  string $file (Optional) File to get information for
      * @return array
      */
     public function getFileInfo($file = null)

@@ -1,4 +1,4 @@
-# Zend\\File\\ClassFileLocator
+# Laminas\\File\\ClassFileLocator
 
 ## Overview
 
