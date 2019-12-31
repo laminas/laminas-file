@@ -1,38 +1,36 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- * @package   Zend_File
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File;
+namespace LaminasTest\File;
 
-use Zend\File\ClassFileLocator;
+use Laminas\File\ClassFileLocator;
 
 /**
- * Test class for Zend\File\ClassFileLocator
+ * Test class for Laminas\File\ClassFileLocator
  *
- * @category   Zend
- * @package    Zend_File
+ * @category   Laminas
+ * @package    Laminas_File
  * @subpackage UnitTests
- * @group      Zend_File
+ * @group      Laminas_File
  */
 class ClassFileLocatorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testConstructorThrowsInvalidArgumentExceptionForInvalidStringDirectory()
     {
-        $this->setExpectedException('Zend\File\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\File\Exception\InvalidArgumentException');
         $locator = new ClassFileLocator('__foo__');
     }
 
     public function testConstructorThrowsInvalidArgumentExceptionForNonDirectoryIteratorArgument()
     {
         $iterator = new \ArrayIterator(array());
-        $this->setExpectedException('Zend\File\Exception\InvalidArgumentException');
+        $this->setExpectedException('Laminas\File\Exception\InvalidArgumentException');
         $locator = new ClassFileLocator($iterator);
     }
 
@@ -108,16 +106,16 @@ class ClassFileLocatorTest extends \PHPUnit_Framework_TestCase
             if (preg_match('/MultipleClassesInMultipleNamespaces\.php$/', $file->getFilename())) {
                 $classes = $file->getClasses();
                 foreach ($classes as $class) {
-                    if ($class === 'ZendTest\File\TestAsset\LocatorShouldFindFirstClass') {
+                    if ($class === 'LaminasTest\File\TestAsset\LocatorShouldFindFirstClass') {
                         $foundFirst = true;
                     }
-                    if ($class === 'ZendTest\File\TestAsset\LocatorShouldFindSecondClass') {
+                    if ($class === 'LaminasTest\File\TestAsset\LocatorShouldFindSecondClass') {
                         $foundSecond = true;
                     }
-                    if ($class === 'ZendTest\File\TestAsset\SecondTestNamespace\LocatorShouldFindThirdClass') {
+                    if ($class === 'LaminasTest\File\TestAsset\SecondTestNamespace\LocatorShouldFindThirdClass') {
                         $foundThird = true;
                     }
-                    if ($class === 'ZendTest\File\TestAsset\SecondTestNamespace\LocatorShouldFindFourthClass') {
+                    if ($class === 'LaminasTest\File\TestAsset\SecondTestNamespace\LocatorShouldFindFourthClass') {
                         $foundFourth = true;
                     }
                 }
