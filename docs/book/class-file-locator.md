@@ -1,6 +1,6 @@
 # ClassFileLocator
 
-`Zend\File\ClassFileLocator` is a PHP [FilterIterator](http://php.net/FilterIterator)
+`Laminas\File\ClassFileLocator` is a PHP [FilterIterator](http://php.net/FilterIterator)
 for use with locating files containing PHP classes, interfaces, abstracts, or
 traits. As such, it should be used in conjunction with a
 [DirectoryIterator](http://php.net/DirectoryIterator) or
@@ -22,7 +22,7 @@ containing PHP clases, interfaces, abstracts, or traits.
 
 Instead of returning standard [SplFileInfo](http://php.net/SplFileInfo)
 instances, the `ClassFileLocator` is configured to cast to
-`Zend\File\PhpClassFile` instances, which extend `SplFileInfo`, and provide the
+`Laminas\File\PhpClassFile` instances, which extend `SplFileInfo`, and provide the
 following additional methods:
 
 - `getClasses()`: returns an array of all classes, abstract classes, interfaces,
@@ -42,7 +42,7 @@ directory in which it is run:
 
 ```php
 <?php
-use Zend\File\ClassFileLocator;
+use Laminas\File\ClassFileLocator;
 
 $path = realpath(getcwd() . '/src');
 

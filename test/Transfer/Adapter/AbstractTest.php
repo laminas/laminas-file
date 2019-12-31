@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File\Transfer\Adapter;
+namespace LaminasTest\File\Transfer\Adapter;
 
 use Interop\Container\ContainerInterface;
+use Laminas\File;
+use Laminas\Filter;
+use Laminas\Validator;
+use Laminas\Validator\File as FileValidator;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\File;
-use Zend\Filter;
-use Zend\Validator;
-use Zend\Validator\File as FileValidator;
 
 /**
- * Test class for Zend\File\Transfer\Adapter\AbstractAdapter
+ * Test class for Laminas\File\Transfer\Adapter\AbstractAdapter
  *
- * @group      Zend_File
+ * @group      Laminas_File
  */
 class AbstractTest extends TestCase
 {
@@ -616,7 +615,7 @@ class AbstractTest extends TestCase
     }
 
     /**
-     * @ZF-7376
+     * @Laminas-7376
      */
     public function testSettingMagicFile()
     {
@@ -627,7 +626,7 @@ class AbstractTest extends TestCase
     }
 
     /**
-     * @ZF-8693
+     * @Laminas-8693
      */
     // @codingStandardsIgnoreStart
     public function testAdapterShouldAllowAddingMultipleValidatorsAtOnceUsingBothInstancesAndPluginLoaderForDifferentFiles()
@@ -665,7 +664,7 @@ class AbstractTest extends TestCase
     }
 
     /**
-     * @ZF-9132
+     * @Laminas-9132
      */
     public function testSettingAndRetrievingDetectInfosOption()
     {

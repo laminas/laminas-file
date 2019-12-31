@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-file for the canonical source repository
- * @copyright Copyright (c) 2005-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-file/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File;
+namespace LaminasTest\File;
 
+use Laminas\File\ClassFileLocator;
+use Laminas\File\Exception;
+use Laminas\File\PhpClassFile;
 use PHPUnit\Framework\TestCase;
-use Zend\File\ClassFileLocator;
-use Zend\File\Exception;
-use Zend\File\PhpClassFile;
 
 class ClassFileLocatorTest extends TestCase
 {
