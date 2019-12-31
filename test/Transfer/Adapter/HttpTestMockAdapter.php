@@ -1,26 +1,25 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/zf2 for the canonical source repository
- * @copyright Copyright (c) 2005-2014 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-file for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-file/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-file/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\File\Transfer\Adapter;
+namespace LaminasTest\File\Transfer\Adapter;
 
-use Zend\File\Transfer\Adapter;
+use Laminas\File\Transfer\Adapter;
 
 /**
- * Test class for Zend\File\Transfer\Adapter\AbstractAdapter
+ * Test class for Laminas\File\Transfer\Adapter\AbstractAdapter
  *
- * @group      Zend_File
+ * @group      Laminas_File
  */
 class HttpTestMockAdapter extends Adapter\Http
 {
     public function __construct()
     {
-        self::$callbackApc = array('ZendTest\File\Transfer\Adapter\HttpTestMockAdapter', 'apcTest');
+        self::$callbackApc = array('LaminasTest\File\Transfer\Adapter\HttpTestMockAdapter', 'apcTest');
         parent::__construct();
     }
 
@@ -52,6 +51,6 @@ class HttpTestMockAdapter extends Adapter\Http
     public function switchApcToUP()
     {
         self::$callbackApc = null;
-        self::$callbackUploadProgress = array('ZendTest\File\Transfer\Adapter\HttpTestMockAdapter', 'uPTest');
+        self::$callbackUploadProgress = array('LaminasTest\File\Transfer\Adapter\HttpTestMockAdapter', 'uPTest');
     }
 }
