@@ -1,6 +1,6 @@
 # laminas-file
 
-[![Build Status](https://travis-ci.org/laminas/laminas-file.svg?branch=master)](https://travis-ci.org/laminas/laminas-file)
+[![Build Status](https://travis-ci.com/laminas/laminas-file.svg?branch=master)](https://travis-ci.com/laminas/laminas-file)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-file/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-file?branch=master)
 
 laminas-file provides a `ClassFileLocator` for locating PHP files containing
