@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-file</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -245,23 +235,22 @@ will not execute PHP files it finds.</p>
 <h2 id="example">Example</h2>
 <p>The following will spit out a PHP file that returns a class map for the <code>src/</code>
 directory in which it is run:</p>
-<p> <div class=codehilite><pre><span></span><span class=cp>&lt;?php</span>
-<span class=k>use</span> <span class=nx>Laminas\File\ClassFileLocator</span><span class=p>;</span>
+<pre class=codehilite><code class=language-php>&lt;?php
+use Laminas\File\ClassFileLocator;
 
-<span class=nv>$path</span> <span class=o>=</span> <span class=nb>realpath</span><span class=p>(</span><span class=nb>getcwd</span><span class=p>()</span> <span class=o>.</span> <span class=s1>&#39;/src&#39;</span><span class=p>);</span>
+$path = realpath(getcwd() . '/src');
 
-<span class=nv>$locator</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>ClassFileLocator</span><span class=p>(</span><span class=nv>$path</span><span class=p>);</span>
-<span class=nv>$map</span> <span class=o>=</span> <span class=p>[];</span>
+$locator = new ClassFileLocator($path);
+$map = [];
 
-<span class=k>foreach</span> <span class=p>(</span><span class=nv>$locator</span> <span class=k>as</span> <span class=nv>$file</span><span class=p>)</span> <span class=p>{</span>
-    <span class=nv>$filename</span> <span class=o>=</span> <span class=nb>str_replace</span><span class=p>(</span><span class=nv>$path</span> <span class=o>.</span> <span class=s1>&#39;/&#39;</span><span class=p>,</span> <span class=s1>&#39;&#39;</span><span class=p>,</span> <span class=nv>$file</span><span class=o>-&gt;</span><span class=na>getRealPath</span><span class=p>());</span>
-    <span class=k>foreach</span> <span class=p>(</span><span class=nv>$file</span><span class=o>-&gt;</span><span class=na>getClasses</span><span class=p>()</span> <span class=k>as</span> <span class=nv>$class</span><span class=p>)</span> <span class=p>{</span>
-        <span class=nv>$map</span><span class=p>[</span><span class=nv>$class</span><span class=p>]</span> <span class=o>=</span> <span class=nv>$filename</span><span class=p>;</span>
-    <span class=p>}</span>
-<span class=p>}</span>
+foreach ($locator as $file) {
+    $filename = str_replace($path . '/', '', $file-&gt;getRealPath());
+    foreach ($file-&gt;getClasses() as $class) {
+        $map[$class] = $filename;
+    }
+}
 
-<span class=nb>printf</span><span class=p>(</span><span class=s2>&quot;&lt;?php</span><span class=se>\n</span><span class=s2>return %s;&quot;</span><span class=p>,</span> <span class=nb>var_export</span><span class=p>(</span><span class=nv>$map</span><span class=p>,</span> <span class=k>true</span><span class=p>));</span>
-</pre></div></p>
+printf(&quot;&lt;?php\nreturn %s;&quot;, var_export($map, true));</code></pre>
 
 
 
@@ -327,20 +316,6 @@ directory in which it is run:</p>
                     
                         
                             <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-file</a>
-                            </li>
-                        
-                    
-                
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
                                 <a href="../intro/" class="subnavigation__link">Intro</a>
                             </li>
                         
@@ -384,9 +359,10 @@ directory in which it is run:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -423,7 +399,7 @@ directory in which it is run:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-file//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-file/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -432,8 +408,8 @@ directory in which it is run:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-file//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-file/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
