@@ -294,7 +294,7 @@ will not execute PHP files it finds.</p>
 <h2 id="example">Example</h2>
 <p>The following will spit out a PHP file that returns a class map for the <code>src/</code>
 directory in which it is run:</p>
-<pre class=codehilite><code class=language-php>&lt;?php
+<pre class="highlight"><code class="language-php">&lt;?php
 use Laminas\File\ClassFileLocator;
 
 $path = realpath(getcwd() . '/src');
@@ -309,7 +309,7 @@ foreach ($locator as $file) {
     }
 }
 
-printf(&quot;&lt;?php\nreturn %s;&quot;, var_export($map, true));</code></pre>
+printf("&lt;?php\nreturn %s;", var_export($map, true));</code></pre>
 
 
 
