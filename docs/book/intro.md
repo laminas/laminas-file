@@ -11,7 +11,7 @@ laminas-file provides two specific pieces of functionality:
 file-related functionality in:
 
 - [laminas-filter](https://docs.laminas.dev/laminas-filter/), which provides
-  functionality around moving uplaoded files to their final locations, renaming
+  functionality around moving uploaded files to their final locations, renaming
   uploaded files, and encrypting and decrypting uploaded files.
 - [laminas-validator](https://github.com/laminas/laminas-validator/), which
   provides functionality around validating uploaded files based on: number of
