@@ -8,8 +8,10 @@
 
 namespace Laminas\File\Transfer\Adapter;
 
+use Interop\Container;
 use Laminas\Filter\File;
 use Laminas\Filter\FilterPluginManager as BaseManager;
+use Laminas\ServiceManager;
 
 /**
  * Plugin manager implementation for the filter chain.
@@ -42,7 +44,7 @@ class FilterPluginManager extends BaseManager
      * Merges default aliases pertinent to this plugin manager with those
      * defined in the parent filter plugin manager.
      *
-     * @param null|\Laminas\ServiceManager\ConfigInterface|\Interop\Container\ContainerInterface $configOrContainerInstance
+     * @param null|ServiceManager\ConfigInterface|Container\ContainerInterface $configOrContainerInstance
      * @param array $v3config If $configOrContainerInstance is a container, this
      *     value will be passed to the parent constructor.
      */
