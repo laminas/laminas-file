@@ -25,10 +25,8 @@ class HttpTest extends TestCase
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
-     *
-     * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $_FILES = [
             'txt' => [
@@ -45,17 +43,15 @@ class HttpTest extends TestCase
     /**
      * Tears down the fixture, for example, close a network connection.
      * This method is called after a test is executed.
-     *
-     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     public function testEmptyAdapter()
     {
         $files = $this->adapter->getFileName();
-        $this->assertContains('php0zgByO_test.txt', $files);
+        $this->assertStringContainsString('php0zgByO_test.txt', $files);
     }
 
     public function testAutoSetUploadValidator()
@@ -110,7 +106,7 @@ class HttpTest extends TestCase
         try {
             $this->assertFalse($this->adapter->receive('unknownFile'));
         } catch (RuntimeException $e) {
-            $this->assertContains('not find', $e->getMessage());
+            $this->assertStringContainsString('not find', $e->getMessage());
         }
     }
 
@@ -333,6 +329,6 @@ class HttpTest extends TestCase
         $_FILES = [];
         $adapter = new HttpTestMockAdapter();
         $this->assertFalse($adapter->isValidParent());
-        $this->assertContains('exceeds', current($adapter->getMessages()));
+        $this->assertStringContainsString('exceeds', current($adapter->getMessages()));
     }
 }

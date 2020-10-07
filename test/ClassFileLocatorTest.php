@@ -35,7 +35,7 @@ class ClassFileLocatorTest extends TestCase
     {
         $locator = new ClassFileLocator(__DIR__);
         foreach ($locator as $file) {
-            $this->assertRegexp('/\.php$/', $file->getFilename());
+            $this->assertMatchesRegularExpression('/\.php$/', $file->getFilename());
         }
     }
 
