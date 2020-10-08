@@ -80,6 +80,7 @@ class ClassFileLocator extends FilterIterator
         $tokens   = token_get_all($contents);
         $count    = count($tokens);
         $inFunctionDeclaration = false;
+        $saveNamespace = false;
         for ($i = 0; $i < $count; $i++) {
             $token = $tokens[$i];
 
@@ -112,12 +113,13 @@ class ClassFileLocator extends FilterIterator
                             }
                             continue;
                         }
-                        list($type, $content, $line) = $token;
-                        switch ($type) {
-                            case T_STRING:
-                            case T_NS_SEPARATOR:
-                                $namespace .= $content;
-                                break;
+                        list($type, $content) = $token;
+                        $types = [T_STRING, T_NS_SEPARATOR];
+                        if (PHP_VERSION_ID >= 80000) {
+                            $types = array_merge($types, [T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED]);
+                        }
+                        if (in_array($type, $types, true)) {
+                            $namespace .= $content;
                         }
                     }
                     if ($saveNamespace) {
@@ -176,7 +178,7 @@ class ClassFileLocator extends FilterIterator
                             // If a classname was found, set it in the object, and
                             // return boolean true (found)
                             if (! isset($namespace) || null === $namespace) {
-                                if (isset($saveNamespace) && $saveNamespace) {
+                                if ($saveNamespace) {
                                     $namespace = $savedNamespace;
                                 } else {
                                     $namespace = null;
