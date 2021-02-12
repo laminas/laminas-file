@@ -1,7 +1,6 @@
 # laminas-file
 
-[![Build Status](https://travis-ci.com/laminas/laminas-file.svg?branch=master)](https://travis-ci.com/laminas/laminas-file)
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-file/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-file?branch=master)
+[![Build Status](https://github.com/laminas/laminas-file/workflows/Continuous%20Integration/badge.svg)](https://github.com/laminas/laminas-file/actions?query=workflow%3A"Continuous+Integration")
 
 laminas-file provides a `ClassFileLocator` for locating PHP files containing
 classes, abstract classes, interfaces, and traits in a specified tree.
