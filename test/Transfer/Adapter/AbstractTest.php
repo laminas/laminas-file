@@ -26,10 +26,8 @@ class AbstractTest extends TestCase
     /**
      * Sets up the fixture, for example, open a network connection.
      * This method is called before a test is executed.
-     *
-     * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->adapter = new AbstractAdapterTestMockAdapter();
     }
@@ -37,10 +35,8 @@ class AbstractTest extends TestCase
     /**
      * Tears down the fixture, for example, close a network connection.
      * This method is called after a test is executed.
-     *
-     * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
@@ -52,7 +48,7 @@ class AbstractTest extends TestCase
 
     public function testAdapterShouldAllowSettingFilterPluginManagerInstance()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $manager = new File\Transfer\Adapter\FilterPluginManager($container);
         $this->adapter->setFilterManager($manager);
         $this->assertSame($manager, $this->adapter->getFilterManager());
@@ -94,7 +90,7 @@ class AbstractTest extends TestCase
         ];
         $this->adapter->addValidators($validators);
         $test = $this->adapter->getValidators();
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertCount(4, $test, var_export($test, 1));
         $count = array_shift($test);
         $this->assertInstanceOf(Validator\File\Count::class, $count);
@@ -152,7 +148,7 @@ class AbstractTest extends TestCase
     {
         $this->testAdapterShouldAllowAddingMultipleValidatorsAtOnceUsingBothInstancesAndPluginLoader();
         $validators = $this->adapter->getValidators();
-        $this->assertInternalType('array', $validators);
+        $this->assertIsArray($validators);
         $this->assertCount(4, $validators);
         foreach ($validators as $validator) {
             $this->assertInstanceOf(Validator\ValidatorInterface::class, $validator);
@@ -191,7 +187,7 @@ class AbstractTest extends TestCase
         $this->testAdapterShouldAllowAddingMultipleValidatorsAtOnceUsingBothInstancesAndPluginLoader();
         $this->adapter->clearValidators();
         $validators = $this->adapter->getValidators();
-        $this->assertInternalType('array', $validators);
+        $this->assertIsArray($validators);
         $this->assertCount(0, $validators);
     }
 
@@ -220,7 +216,7 @@ class AbstractTest extends TestCase
     public function testErrorMessagesShouldBeEmptyByDefault()
     {
         $messages = $this->adapter->getMessages();
-        $this->assertInternalType('array', $messages);
+        $this->assertIsArray($messages);
         $this->assertCount(0, $messages);
     }
 
@@ -228,14 +224,14 @@ class AbstractTest extends TestCase
     {
         $this->testValidationShouldReturnFalseForInvalidTransfer();
         $messages = $this->adapter->getMessages();
-        $this->assertInternalType('array', $messages);
+        $this->assertIsArray($messages);
         $this->assertNotEmpty($messages);
     }
 
     public function testErrorCodesShouldBeNullByDefault()
     {
         $errors = $this->adapter->getErrors();
-        $this->assertInternalType('array', $errors);
+        $this->assertIsArray($errors);
         $this->assertCount(0, $errors);
     }
 
@@ -243,7 +239,7 @@ class AbstractTest extends TestCase
     {
         $this->testValidationShouldReturnFalseForInvalidTransfer();
         $errors = $this->adapter->getErrors();
-        $this->assertInternalType('array', $errors);
+        $this->assertIsArray($errors);
         $this->assertNotEmpty($errors);
     }
 
@@ -289,7 +285,7 @@ class AbstractTest extends TestCase
         ];
         $this->adapter->addFilters($filters);
         $test = $this->adapter->getFilters();
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertCount(3, $test, var_export($test, 1));
         $count = array_shift($test);
         $this->assertInstanceOf(Filter\Word\SeparatorToCamelCase::class, $count);
@@ -344,7 +340,7 @@ class AbstractTest extends TestCase
     {
         $this->testAdapterShouldAllowAddingMultipleFiltersAtOnceUsingBothInstancesAndPluginLoader();
         $filters = $this->adapter->getFilters();
-        $this->assertInternalType('array', $filters);
+        $this->assertIsArray($filters);
         $this->assertCount(3, $filters);
         foreach ($filters as $filter) {
             $this->assertInstanceOf(Filter\FilterInterface::class, $filter);
@@ -383,7 +379,7 @@ class AbstractTest extends TestCase
         $this->testAdapterShouldAllowAddingMultipleFiltersAtOnceUsingBothInstancesAndPluginLoader();
         $this->adapter->clearFilters();
         $filters = $this->adapter->getFilters();
-        $this->assertInternalType('array', $filters);
+        $this->assertIsArray($filters);
         $this->assertCount(0, $filters);
     }
 
@@ -392,7 +388,7 @@ class AbstractTest extends TestCase
         $directory = __DIR__;
         $this->adapter->setDestination($directory);
         $destinations = $this->adapter->getDestination();
-        $this->assertInternalType('array', $destinations);
+        $this->assertIsArray($destinations);
         foreach ($destinations as $file => $destination) {
             $this->assertEquals($directory, $destination);
         }
@@ -408,7 +404,7 @@ class AbstractTest extends TestCase
     {
         $this->adapter->setDestination(__DIR__);
         $destinations = $this->adapter->getDestination(['bar', 'baz']);
-        $this->assertInternalType('array', $destinations);
+        $this->assertIsArray($destinations);
         $directory = __DIR__;
         foreach ($destinations as $file => $destination) {
             $this->assertContains($file, ['bar', 'baz']);
@@ -489,7 +485,7 @@ class AbstractTest extends TestCase
               . DIRECTORY_SEPARATOR . '_files';
         $this->adapter->setDestination($path);
         $files = $this->adapter->getFileName();
-        $this->assertInternalType('array', $files);
+        $this->assertIsArray($files);
         $this->assertEquals($path . DIRECTORY_SEPARATOR . 'bar.png', $files['bar']);
     }
 
@@ -499,7 +495,7 @@ class AbstractTest extends TestCase
               . DIRECTORY_SEPARATOR . '_files';
         $this->adapter->setDestination($path);
         $files = $this->adapter->getFileName(null, false);
-        $this->assertInternalType('array', $files);
+        $this->assertIsArray($files);
         $this->assertEquals('bar.png', $files['bar']);
     }
 
@@ -611,7 +607,7 @@ class AbstractTest extends TestCase
         $this->expectException(File\Transfer\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('not find');
 
-        $this->assertInternalType('string', $this->adapter->getDestination('reallynonexisting'));
+        $this->assertIsString($this->adapter->getDestination('reallynonexisting'));
     }
 
     /**
