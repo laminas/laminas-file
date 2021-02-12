@@ -48,7 +48,7 @@ class AbstractTest extends TestCase
 
     public function testAdapterShouldAllowSettingFilterPluginManagerInstance()
     {
-        $container = $this->prophesize(ContainerInterface::class)->reveal();
+        $container = $this->createMock(ContainerInterface::class);
         $manager = new File\Transfer\Adapter\FilterPluginManager($container);
         $this->adapter->setFilterManager($manager);
         $this->assertSame($manager, $this->adapter->getFilterManager());
