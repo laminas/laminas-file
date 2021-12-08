@@ -191,8 +191,8 @@ class ClassFileLocatorTest extends TestCase
         }, []);
 
         $expected = [
-            TestAsset\WithMethodsNamedAfterKeywords\WithReturnTypeDeclaration::class,
             TestAsset\WithMethodsNamedAfterKeywords\WithoutReturnTypeDeclaration::class,
+            TestAsset\WithMethodsNamedAfterKeywords\WithReturnTypeDeclaration::class,
         ];
 
         $this->assertEquals($expected, $classNames, '', 0.0, 10, true);
