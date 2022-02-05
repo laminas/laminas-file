@@ -189,6 +189,9 @@ class ClassFileLocatorTest extends TestCase
             TestAsset\WithMethodsNamedAfterKeywords\WithReturnTypeDeclaration::class,
         ];
 
+        sort($classNames);
+        sort($expected);
+
         $this->assertEquals($expected, $classNames, '', 0.0, 10, true);
     }
 
