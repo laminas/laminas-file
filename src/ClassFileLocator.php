@@ -51,6 +51,7 @@ class ClassFileLocator extends FilterIterator
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function accept()
     {
         $file = $this->getInnerIterator()->current();
