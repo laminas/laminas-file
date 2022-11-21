@@ -16,7 +16,10 @@
         "forum": "https://discourse.laminas.dev"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.0.99"
+        }
     },
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
@@ -60,6 +63,6 @@
         "upload-coverage": "coveralls -v"
     },
     "conflict": {
-        "zendframework/zend-db": "*"
+        "zendframework/zend-file": "*"
     }
 }
