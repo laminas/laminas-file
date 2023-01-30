@@ -109,10 +109,7 @@ class ClassFileLocator extends FilterIterator
                             continue;
                         }
                         list($type, $content) = $token;
-                        $types = [T_STRING, T_NS_SEPARATOR];
-                        if (PHP_VERSION_ID >= 80000) {
-                            $types = array_merge($types, [T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED]);
-                        }
+                        $types = [T_STRING, T_NS_SEPARATOR, T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED];
                         if (in_array($type, $types, true)) {
                             $namespace .= $content;
                         }
