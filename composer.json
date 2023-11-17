@@ -29,7 +29,7 @@
         "laminas/laminas-stdlib": "^2.7.7 || ^3.15.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~2.5.0",
+        "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-filter": "^2.23.2",
         "laminas/laminas-i18n": "^2.7.4",
         "laminas/laminas-progressbar": "^2.5.2",
