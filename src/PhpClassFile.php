@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File;
 
 use SplFileInfo;
+
+use function in_array;
 
 /**
  * Locate files containing PHP classes, interfaces, abstracts or traits
  */
 class PhpClassFile extends SplFileInfo
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $classes = [];
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $namespaces = [];
 
     /**

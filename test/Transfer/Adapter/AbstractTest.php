@@ -1,14 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\File\Transfer\Adapter;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\File;
 use Laminas\Filter;
 use Laminas\Validator;
 use Laminas\Validator\File as FileValidator;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+
+use function array_pop;
+use function array_shift;
+use function array_values;
+use function realpath;
+use function sprintf;
+use function var_export;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Test class for Laminas\File\Transfer\Adapter\AbstractAdapter
@@ -42,8 +53,8 @@ class AbstractTest extends TestCase
 
     public function testAdapterShouldAllowSettingFilterPluginManagerInstance()
     {
-        $container = $this->createMock(ContainerInterface::class);
-        $manager = new File\Transfer\Adapter\FilterPluginManager($container);
+        $container = $this->createMock(containerinterface::class);
+        $manager   = new File\Transfer\Adapter\FilterPluginManager($container);
         $this->adapter->setFilterManager($manager);
         $this->assertSame($manager, $this->adapter->getFilterManager());
     }
@@ -68,24 +79,24 @@ class AbstractTest extends TestCase
         $this->expectException(File\Transfer\Exception\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid validator provided to addValidator');
 
-        $this->adapter->addValidator(new Filter\BaseName);
+        $this->adapter->addValidator(new Filter\BaseName());
     }
 
     public function testAdapterShouldAllowAddingMultipleValidatorsAtOnceUsingBothInstancesAndPluginLoader()
     {
         $validators = [
-            'count' => ['min' => 1, 'max' => 1],
+            'count'  => ['min' => 1, 'max' => 1],
             'Exists' => 'C:\temp',
             [
                 'validator' => 'Upload',
-                'options' => [realpath(__FILE__)]
+                'options'   => [realpath(__FILE__)],
             ],
             new FileValidator\Extension('jpg'),
         ];
         $this->adapter->addValidators($validators);
         $test = $this->adapter->getValidators();
         $this->assertIsArray($test);
-        $this->assertCount(4, $test, var_export($test, 1));
+        $this->assertCount(4, $test, var_export($test, true));
         $count = array_shift($test);
         $this->assertInstanceOf(Validator\File\Count::class, $count);
         $exists = array_shift($test);
@@ -258,7 +269,6 @@ class AbstractTest extends TestCase
         $this->assertInstanceOf(Filter\StringTrim::class, $test);
     }
 
-
     public function testAdapterhShouldRaiseExceptionWhenAddingInvalidFilterType()
     {
         $this->expectException(File\Transfer\Exception\InvalidArgumentException::class);
@@ -272,15 +282,15 @@ class AbstractTest extends TestCase
         $filters = [
             'wordSeparatorToCamelCase' => ['separator' => ' '],
             [
-                'filter' => 'Boolean',
-                'casting' => true
+                'filter'  => 'Boolean',
+                'casting' => true,
             ],
             new Filter\BaseName(),
         ];
         $this->adapter->addFilters($filters);
         $test = $this->adapter->getFilters();
         $this->assertIsArray($test);
-        $this->assertCount(3, $test, var_export($test, 1));
+        $this->assertCount(3, $test, var_export($test, true));
         $count = array_shift($test);
         $this->assertInstanceOf(Filter\Word\SeparatorToCamelCase::class, $count);
         $size = array_shift($test);
@@ -409,27 +419,27 @@ class AbstractTest extends TestCase
     public function testSettingAndRetrievingOptions()
     {
         $this->assertEquals([
-            'bar' => ['ignoreNoFile' => false, 'useByteString' => true],
-            'baz' => ['ignoreNoFile' => false, 'useByteString' => true],
-            'foo' => ['ignoreNoFile' => false, 'useByteString' => true, 'detectInfos' => true],
+            'bar'     => ['ignoreNoFile' => false, 'useByteString' => true],
+            'baz'     => ['ignoreNoFile' => false, 'useByteString' => true],
+            'foo'     => ['ignoreNoFile' => false, 'useByteString' => true, 'detectInfos' => true],
             'file_0_' => ['ignoreNoFile' => false, 'useByteString' => true],
             'file_1_' => ['ignoreNoFile' => false, 'useByteString' => true],
         ], $this->adapter->getOptions());
 
         $this->adapter->setOptions(['ignoreNoFile' => true]);
         $this->assertEquals([
-            'bar' => ['ignoreNoFile' => true, 'useByteString' => true],
-            'baz' => ['ignoreNoFile' => true, 'useByteString' => true],
-            'foo' => ['ignoreNoFile' => true, 'useByteString' => true, 'detectInfos' => true],
+            'bar'     => ['ignoreNoFile' => true, 'useByteString' => true],
+            'baz'     => ['ignoreNoFile' => true, 'useByteString' => true],
+            'foo'     => ['ignoreNoFile' => true, 'useByteString' => true, 'detectInfos' => true],
             'file_0_' => ['ignoreNoFile' => true, 'useByteString' => true],
             'file_1_' => ['ignoreNoFile' => true, 'useByteString' => true],
         ], $this->adapter->getOptions());
 
         $this->adapter->setOptions(['ignoreNoFile' => false], 'foo');
         $this->assertEquals([
-            'bar' => ['ignoreNoFile' => true, 'useByteString' => true],
-            'baz' => ['ignoreNoFile' => true, 'useByteString' => true],
-            'foo' => ['ignoreNoFile' => false, 'useByteString' => true, 'detectInfos' => true],
+            'bar'     => ['ignoreNoFile' => true, 'useByteString' => true],
+            'baz'     => ['ignoreNoFile' => true, 'useByteString' => true],
+            'foo'     => ['ignoreNoFile' => false, 'useByteString' => true, 'detectInfos' => true],
             'file_0_' => ['ignoreNoFile' => true, 'useByteString' => true],
             'file_1_' => ['ignoreNoFile' => true, 'useByteString' => true],
         ], $this->adapter->getOptions());
@@ -523,7 +533,7 @@ class AbstractTest extends TestCase
     public function testTemporaryDirectoryAccessDetection()
     {
         $this->adapter->tmpDir = ".";
-        $path = "/NoPath/To/File";
+        $path                  = "/NoPath/To/File";
         $this->assertFalse($this->adapter->isPathWriteable($path));
         $this->assertTrue($this->adapter->isPathWriteable($this->adapter->tmpDir));
     }
@@ -546,7 +556,7 @@ class AbstractTest extends TestCase
     public function testFileSizeByTmpName()
     {
         $expectedSize = sprintf("%.2fkB", 1.14);
-        $options = $this->adapter->getOptions();
+        $options      = $this->adapter->getOptions();
         $this->assertTrue($options['baz']['useByteString']);
         $this->assertEquals($expectedSize, $this->adapter->getFileSize('baz.text'));
         $this->adapter->setOptions(['useByteString' => false]);
@@ -660,14 +670,18 @@ class AbstractTest extends TestCase
     {
         $this->assertEquals([
             'foo' => [
-                'ignoreNoFile' => false,
+                'ignoreNoFile'  => false,
                 'useByteString' => true,
-                'detectInfos' => true]], $this->adapter->getOptions('foo'));
+                'detectInfos'   => true,
+            ],
+        ], $this->adapter->getOptions('foo'));
         $this->adapter->setOptions(['detectInfos' => false]);
         $this->assertEquals([
             'foo' => [
-                'ignoreNoFile' => false,
+                'ignoreNoFile'  => false,
                 'useByteString' => true,
-                'detectInfos' => false]], $this->adapter->getOptions('foo'));
+                'detectInfos'   => false,
+            ],
+        ], $this->adapter->getOptions('foo'));
     }
 }

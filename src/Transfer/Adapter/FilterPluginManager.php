@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File\Transfer\Adapter;
 
 use Interop\Container;
 use Laminas\Filter\File;
 use Laminas\Filter\FilterPluginManager as BaseManager;
 use Laminas\ServiceManager;
+
+use function array_merge;
 
 /**
  * Plugin manager implementation for the filter chain.
@@ -17,19 +21,20 @@ use Laminas\ServiceManager;
  */
 class FilterPluginManager extends BaseManager
 {
-    protected $defaultFileFilterAliases = [
-        'decrypt'       => File\Decrypt::class,
-        'Decrypt'       => File\Decrypt::class,
-        'encrypt'       => File\Encrypt::class,
-        'Encrypt'       => File\Encrypt::class,
-        'lowercase'     => File\LowerCase::class,
-        'lowerCase'     => File\LowerCase::class,
-        'LowerCase'     => File\LowerCase::class,
-        'rename'        => File\Rename::class,
-        'Rename'        => File\Rename::class,
-        'uppercase'     => File\UpperCase::class,
-        'upperCase'     => File\UpperCase::class,
-        'UpperCase'     => File\UpperCase::class,
+    // @var string[]
+    protected array $defaultFileFilterAliases = [
+        'decrypt'   => File\Decrypt::class,
+        'Decrypt'   => File\Decrypt::class,
+        'encrypt'   => File\Encrypt::class,
+        'Encrypt'   => File\Encrypt::class,
+        'lowercase' => File\LowerCase::class,
+        'lowerCase' => File\LowerCase::class,
+        'LowerCase' => File\LowerCase::class,
+        'rename'    => File\Rename::class,
+        'Rename'    => File\Rename::class,
+        'uppercase' => File\UpperCase::class,
+        'upperCase' => File\UpperCase::class,
+        'UpperCase' => File\UpperCase::class,
     ];
 
     /**

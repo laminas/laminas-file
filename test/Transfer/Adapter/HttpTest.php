@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\File\Transfer\Adapter;
 
 use Laminas\File\Transfer\Adapter;
@@ -8,6 +10,11 @@ use Laminas\File\Transfer\Exception\RuntimeException;
 use Laminas\ProgressBar;
 use Laminas\Validator;
 use PHPUnit\Framework\TestCase;
+
+use function current;
+use function dirname;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * Test class for Laminas\File\Transfer\Adapter\Http
@@ -22,13 +29,13 @@ class HttpTest extends TestCase
      */
     public function setUp(): void
     {
-        $_FILES = [
+        $_FILES        = [
             'txt' => [
-                'name' => 'test.txt',
-                'type' => 'plain/text',
-                'size' => 8,
+                'name'     => 'test.txt',
+                'type'     => 'plain/text',
+                'size'     => 8,
                 'tmp_name' => __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'php0zgByO',
-                'error' => 0,
+                'error'    => 0,
             ],
         ];
         $this->adapter = new HttpTestMockAdapter();
@@ -106,13 +113,13 @@ class HttpTest extends TestCase
 
     public function testReceiveValidatedFile()
     {
-        $_FILES = [
+        $_FILES  = [
             'txt' => [
-                'name' => 'unknown.txt',
-                'type' => 'plain/text',
-                'size' => 8,
+                'name'     => 'unknown.txt',
+                'type'     => 'plain/text',
+                'size'     => 8,
                 'tmp_name' => 'unknown.txt',
-                'error' => 0,
+                'error'    => 0,
             ],
         ];
         $adapter = new HttpTestMockAdapter();
@@ -142,24 +149,24 @@ class HttpTest extends TestCase
 
     public function testMultiFiles()
     {
-        $_FILES = [
+        $_FILES  = [
             'txt' => [
-                'name' => 'test.txt',
-                'type' => 'plain/text',
-                'size' => 8,
+                'name'     => 'test.txt',
+                'type'     => 'plain/text',
+                'size'     => 8,
                 'tmp_name' => __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'php0zgByO',
-                'error' => 0,
+                'error'    => 0,
             ],
             'exe' => [
-                'name' => [
+                'name'     => [
                     0 => 'file1.exe',
                     1 => 'file2.exe',
                 ],
-                'type' => [
+                'type'     => [
                     0 => 'plain/text',
                     1 => 'plain/text',
                 ],
-                'size' => [
+                'size'     => [
                     0 => 8,
                     1 => 8,
                 ],
@@ -167,7 +174,7 @@ class HttpTest extends TestCase
                     0 => __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpqBXGTg',
                     1 => __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpZqRDQF',
                 ],
-                'error' => [
+                'error'    => [
                     0 => 0,
                     1 => 0,
                 ],
@@ -184,24 +191,24 @@ class HttpTest extends TestCase
 
     public function testMultiFilesSameName()
     {
-        $_FILES = [
+        $_FILES  = [
             'txt' => [
-                'name' => 'test.txt',
-                'type' => 'plain/text',
-                'size' => 8,
+                'name'     => 'test.txt',
+                'type'     => 'plain/text',
+                'size'     => 8,
                 'tmp_name' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'php0zgByO',
-                'error' => 0,
+                'error'    => 0,
             ],
             'exe' => [
-                'name' => [
+                'name'     => [
                     0 => 'file.exe',
                     1 => 'file.exe',
                 ],
-                'type' => [
+                'type'     => [
                     0 => 'plain/text',
                     1 => 'plain/text',
                 ],
-                'size' => [
+                'size'     => [
                     0 => 8,
                     1 => 8,
                 ],
@@ -209,7 +216,7 @@ class HttpTest extends TestCase
                     0 => dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpOOwDDc',
                     1 => dirname(__FILE__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'phpDlIxkx',
                 ],
-                'error' => [
+                'error'    => [
                     0 => 0,
                     1 => 0,
                 ],
@@ -241,7 +248,7 @@ class HttpTest extends TestCase
         }
 
         $_GET['progress_key'] = 'mykey';
-        $status = HttpTestMockAdapter::getProgress();
+        $status               = HttpTestMockAdapter::getProgress();
         $this->assertEquals([
             'total'   => 100,
             'current' => 100,
@@ -294,9 +301,9 @@ class HttpTest extends TestCase
         }
 
         $_GET['progress_key'] = 'mykey';
-        $adapter = new ProgressBar\Adapter\Console();
-        $status = ['progress' => $adapter, 'session' => 'upload'];
-        $status = HttpTestMockAdapter::getProgress($status);
+        $adapter              = new ProgressBar\Adapter\Console();
+        $status               = ['progress' => $adapter, 'session' => 'upload'];
+        $status               = HttpTestMockAdapter::getProgress($status);
         $this->assertArrayHasKey('total', $status);
         $this->assertArrayHasKey('current', $status);
         $this->assertArrayHasKey('rate', $status);
@@ -320,7 +327,7 @@ class HttpTest extends TestCase
     {
         $_SERVER['CONTENT_LENGTH'] = 10;
 
-        $_FILES = [];
+        $_FILES  = [];
         $adapter = new HttpTestMockAdapter();
         $this->assertFalse($adapter->isValidParent());
         $this->assertStringContainsString('exceeds', current($adapter->getMessages()));

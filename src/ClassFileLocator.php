@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File;
 
 use DirectoryIterator;
@@ -7,7 +9,30 @@ use FilterIterator;
 use RecursiveDirectoryIterator;
 use RecursiveIterator;
 use RecursiveIteratorIterator;
+use ReturnTypeWillChange;
 use SplFileInfo;
+
+use function count;
+use function file_get_contents;
+use function in_array;
+use function is_array;
+use function is_dir;
+use function is_string;
+use function token_get_all;
+
+use const T_CLASS;
+use const T_DOUBLE_COLON;
+use const T_FUNCTION;
+use const T_INTERFACE;
+use const T_NAME_FULLY_QUALIFIED;
+use const T_NAME_QUALIFIED;
+use const T_NAMESPACE;
+use const T_NEW;
+use const T_NS_SEPARATOR;
+use const T_STRING;
+use const T_TRAIT;
+use const T_USE;
+use const T_WHITESPACE;
 
 /**
  * Locate files containing PHP classes, interfaces, abstracts or traits
@@ -51,7 +76,7 @@ class ClassFileLocator extends FilterIterator
      *
      * @return bool
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function accept()
     {
         $file = $this->getInnerIterator()->current();
@@ -67,15 +92,15 @@ class ClassFileLocator extends FilterIterator
         }
 
         // If not a PHP file, skip
-        if ($file->getBasename('.php') == $file->getBasename()) {
+        if ($file->getBasename('.php') === $file->getBasename()) {
             return false;
         }
 
-        $contents = file_get_contents($file->getRealPath());
-        $tokens   = token_get_all($contents);
-        $count    = count($tokens);
+        $contents              = file_get_contents($file->getRealPath());
+        $tokens                = token_get_all($contents);
+        $count                 = count($tokens);
         $inFunctionDeclaration = false;
-        $saveNamespace = false;
+        $saveNamespace         = false;
         for ($i = 0; $i < $count; $i++) {
             $token = $tokens[$i];
 
@@ -108,8 +133,8 @@ class ClassFileLocator extends FilterIterator
                             }
                             continue;
                         }
-                        list($type, $content) = $token;
-                        $types = [T_STRING, T_NS_SEPARATOR, T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED];
+                        [$type, $content] = $token;
+                        $types            = [T_STRING, T_NS_SEPARATOR, T_NAME_FULLY_QUALIFIED, T_NAME_QUALIFIED];
                         if (in_array($type, $types, true)) {
                             $namespace .= $content;
                         }
@@ -139,10 +164,11 @@ class ClassFileLocator extends FilterIterator
                     }
 
                     // ignore anonymous classes on PHP 7.1 and greater
-                    if ($i >= 2
-                        && \is_array($tokens[$i - 1])
+                    if (
+                        $i >= 2
+                        && is_array($tokens[$i - 1])
                         && T_WHITESPACE === $tokens[$i - 1][0]
-                        && \is_array($tokens[$i - 2])
+                        && is_array($tokens[$i - 2])
                         && T_NEW === $tokens[$i - 2][0]
                     ) {
                         break;
@@ -165,8 +191,8 @@ class ClassFileLocator extends FilterIterator
                         if (is_string($token)) {
                             continue;
                         }
-                        list($type, $content, $line) = $token;
-                        if (T_STRING == $type) {
+                        [$type, $content, $line] = $token;
+                        if (T_STRING === $type) {
                             // If a classname was found, set it in the object, and
                             // return boolean true (found)
                             if (! isset($namespace) || null === $namespace) {
@@ -176,7 +202,7 @@ class ClassFileLocator extends FilterIterator
                                     $namespace = null;
                                 }
                             }
-                            $class = (null === $namespace) ? $content : $namespace . '\\' . $content;
+                            $class = null === $namespace ? $content : $namespace . '\\' . $content;
                             $file->addClass($class);
                             if ($namespace) {
                                 $file->addNamespace($namespace);

@@ -1,6 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File\Transfer;
+
+use function array_key_exists;
+use function call_user_func_array;
+use function is_string;
+use function method_exists;
+use function ucfirst;
 
 /**
  * Base class for all protocols supporting file transfers
@@ -44,11 +52,11 @@ class Transfer
             throw new Exception\InvalidArgumentException('Adapter must be a string');
         }
 
-        if ($adapter[0] != '\\') {
+        if ($adapter[0] !== '\\') {
             $adapter = '\Laminas\File\Transfer\Adapter\\' . ucfirst($adapter);
         }
 
-        $direction = (int) $direction;
+        $direction                 = (int) $direction;
         $this->adapter[$direction] = new $adapter($options);
         if (! $this->adapter[$direction] instanceof Adapter\AbstractAdapter) {
             throw new Exception\InvalidArgumentException(
@@ -82,7 +90,7 @@ class Transfer
      *
      * @param  string $method  Method to call
      * @param  array  $options Options for this method
-     * @throws Exception\BadMethodCallException if unknown method
+     * @throws Exception\BadMethodCallException If unknown method.
      * @return mixed
      */
     public function __call($method, array $options)

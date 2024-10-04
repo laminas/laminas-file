@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File\Transfer\Adapter;
 
 use Interop\Container;
@@ -7,12 +9,14 @@ use Laminas\ServiceManager;
 use Laminas\Validator\File;
 use Laminas\Validator\ValidatorPluginManager as BaseManager;
 
+use function array_merge;
+
 /**
  * @deprecated since 2.7.0, and scheduled for removal with 3.0.0
  */
 class ValidatorPluginManager extends BaseManager
 {
-    protected $defaultFileValidationAliases = [
+    protected array $defaultFileValidationAliases = [
         'count'            => File\Count::class,
         'Count'            => File\Count::class,
         'crc32'            => File\Crc32::class,

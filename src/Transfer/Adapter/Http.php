@@ -1,12 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\File\Transfer\Adapter;
 
-use Laminas\File\Transfer;
 use Laminas\File\Transfer\Exception;
 use Laminas\ProgressBar;
 use Laminas\ProgressBar\Adapter;
 use Laminas\Validator;
+
+use function array_search;
+use function basename;
+use function call_user_func;
+use function current;
+use function dirname;
+use function ini_get;
+use function is_array;
+use function is_callable;
+use function move_uploaded_file;
+use function serialize;
+
+use const DIRECTORY_SEPARATOR;
 
 /**
  * File transfer adapter class for the HTTP protocol
@@ -15,18 +29,19 @@ use Laminas\Validator;
  */
 class Http extends AbstractAdapter
 {
-    protected static $callbackApc            = 'apc_fetch';
-    protected static $callbackUploadProgress = 'uploadprogress_get_info';
+    protected static mixed $callbackApc = 'apc_fetch';
+
+    protected static string $callbackUploadProgress = 'uploadprogress_get_info';
 
     /**
      * Constructor for Http File Transfers
      *
      * @param  array $options OPTIONAL Options to set
-     * @throws Exception\PhpEnvironmentException if file uploads are not allowed
+     * @throws Exception\PhpEnvironmentException If file uploads are not allowed.
      */
     public function __construct($options = [])
     {
-        if (ini_get('file_uploads') == false) {
+        if (ini_get('file_uploads') === false) {
             throw new Exception\PhpEnvironmentException('File uploads are not allowed in your php config!');
         }
 
@@ -56,7 +71,7 @@ class Http extends AbstractAdapter
      */
     public function removeValidator($name)
     {
-        if ($name == 'Upload') {
+        if ($name === 'Upload') {
             return $this;
         }
 
@@ -81,7 +96,7 @@ class Http extends AbstractAdapter
      *
      * @param  string|array $options Options for the file(s) to send
      * @return void
-     * @throws Exception\BadMethodCallException Not implemented
+     * @throws Exception\BadMethodCallException Not implemented.
      */
     public function send($options = null)
     {
@@ -110,9 +125,12 @@ class Http extends AbstractAdapter
                 $files = current($files);
             }
 
-            $temp = [$files => [
-                'name'  => $files,
-                'error' => 1]];
+            $temp      = [
+                $files => [
+                    'name'  => $files,
+                    'error' => 1,
+                ],
+            ];
             $validator = $this->validators[Validator\File\Upload::class];
             $validator->setTranslator($this->getTranslator())
                       ->setFiles($temp)
@@ -149,15 +167,15 @@ class Http extends AbstractAdapter
                 $rename   = $this->getFilter('Rename');
                 if ($rename !== null) {
                     $tmp = $rename->getNewName($content['tmp_name']);
-                    if ($tmp != $content['tmp_name']) {
+                    if ($tmp !== $content['tmp_name']) {
                         $filename = $tmp;
                     }
 
-                    if (dirname($filename) == '.') {
+                    if (dirname($filename) === '.') {
                         $filename = $directory . $filename;
                     }
 
-                    $key = array_search(get_class($rename), $this->files[$file]['filters']);
+                    $key = array_search($rename::class, $this->files[$file]['filters']);
                     unset($this->files[$file]['filters'][$key]);
                 }
 
@@ -199,8 +217,8 @@ class Http extends AbstractAdapter
      * Checks if the file was already sent
      *
      * @param  string|array $files Files to check
-     * @return bool
-     * @throws Exception\BadMethodCallException Not implemented
+     * @return void
+     * @throws Exception\BadMethodCallException Not implemented.
      */
     public function isSent($files = null)
     {
@@ -278,7 +296,7 @@ class Http extends AbstractAdapter
      *
      * @param  string|array $id The upload to get the progress for
      * @return array|null
-     * @throws Exception\PhpEnvironmentException whether APC nor UploadProgress extension installed
+     * @throws Exception\PhpEnvironmentException Whether APC nor UploadProgress extension installed.
      * @throws Exception\RuntimeException
      */
     public static function getProgress($id = null)
@@ -289,11 +307,11 @@ class Http extends AbstractAdapter
 
         $session = 'Laminas\File\Transfer\Adapter\Http\ProgressBar';
         $status  = [
-            'total'    => 0,
-            'current'  => 0,
-            'rate'     => 0,
-            'message'  => '',
-            'done'     => false
+            'total'   => 0,
+            'current' => 0,
+            'rate'    => 0,
+            'message' => '',
+            'done'    => false,
         ];
 
         if (is_array($id)) {
@@ -312,7 +330,7 @@ class Http extends AbstractAdapter
             }
         }
 
-        if (! empty($id) && (($id instanceof Adapter\AbstractAdapter) || ($id instanceof ProgressBar\ProgressBar))) {
+        if (! empty($id) && ($id instanceof Adapter\AbstractAdapter || $id instanceof ProgressBar\ProgressBar)) {
             $adapter = $id;
             unset($id);
         }
@@ -335,13 +353,11 @@ class Http extends AbstractAdapter
             } elseif (self::isUploadProgressAvailable()) {
                 $call = call_user_func(static::$callbackUploadProgress, $id);
                 if (is_array($call)) {
-                    $status = $call + $status;
-                    $status['total']   = isset($status['bytes_total']) ? $status['bytes_total'] : $status['total'];
-                    $status['current'] = isset($status['bytes_uploaded'])
-                        ? $status['bytes_uploaded']
-                        : $status['current'];
-                    $status['rate']    = isset($status['speed_average']) ? $status['speed_average'] : $status['rate'];
-                    if ($status['total'] == $status['current']) {
+                    $status            = $call + $status;
+                    $status['total']   = $status['bytes_total'] ?? $status['total'];
+                    $status['current'] = $status['bytes_uploaded'] ?? $status['current'];
+                    $status['rate']    = $status['speed_average'] ?? $status['rate'];
+                    if ($status['total'] === $status['current']) {
                         $status['done'] = true;
                     }
                 }
@@ -366,7 +382,7 @@ class Http extends AbstractAdapter
                 $adapter = new ProgressBar\ProgressBar($adapter, 0, $status['total'], $session);
             }
 
-            if (! ($adapter instanceof ProgressBar\ProgressBar)) {
+            if (! $adapter instanceof ProgressBar\ProgressBar) {
                 throw new Exception\RuntimeException('Unknown Adapter given');
             }
 
@@ -414,26 +430,26 @@ class Http extends AbstractAdapter
             if (is_array($content['name'])) {
                 foreach ($content as $param => $file) {
                     foreach ($file as $number => $target) {
-                        $this->files[$form . '_' . $number . '_'][$param]      = $target;
-                        $this->files[$form]['multifiles'][$number] = $form . '_' . $number . '_';
+                        $this->files[$form . '_' . $number . '_'][$param] = $target;
+                        $this->files[$form]['multifiles'][$number]        = $form . '_' . $number . '_';
                     }
                 }
 
                 $this->files[$form]['name'] = $form;
                 foreach ($this->files[$form]['multifiles'] as $key => $value) {
                     if ($this->files[$value]['tmp_name'] !== '') {
-                        $this->files[$value]['name']  = basename($this->files[$value]['tmp_name'])
-                            . '_' .  $this->files[$value]['name'];
+                        $this->files[$value]['name'] = basename($this->files[$value]['tmp_name'])
+                            . '_' . $this->files[$value]['name'];
                     }
                     $this->files[$value]['options']   = $this->options;
                     $this->files[$value]['validated'] = false;
                     $this->files[$value]['received']  = false;
                     $this->files[$value]['filtered']  = false;
 
-                    $mimetype = $this->detectMimeType($this->files[$value]);
+                    $mimetype                    = $this->detectMimeType($this->files[$value]);
                     $this->files[$value]['type'] = $mimetype;
 
-                    $filesize = $this->detectFileSize($this->files[$value]);
+                    $filesize                    = $this->detectFileSize($this->files[$value]);
                     $this->files[$value]['size'] = $filesize;
 
                     if ($this->options['detectInfos']) {
@@ -442,20 +458,20 @@ class Http extends AbstractAdapter
                     }
                 }
             } else {
-                $this->files[$form]              = $content;
+                $this->files[$form] = $content;
                 if ($this->files[$form]['tmp_name'] !== '') {
-                    $this->files[$form]['name']  = basename($this->files[$form]['tmp_name'])
-                        . '_' .  $this->files[$form]['name'];
+                    $this->files[$form]['name'] = basename($this->files[$form]['tmp_name'])
+                        . '_' . $this->files[$form]['name'];
                 }
                 $this->files[$form]['options']   = $this->options;
                 $this->files[$form]['validated'] = false;
                 $this->files[$form]['received']  = false;
                 $this->files[$form]['filtered']  = false;
 
-                $mimetype = $this->detectMimeType($this->files[$form]);
+                $mimetype                   = $this->detectMimeType($this->files[$form]);
                 $this->files[$form]['type'] = $mimetype;
 
-                $filesize = $this->detectFileSize($this->files[$form]);
+                $filesize                   = $this->detectFileSize($this->files[$form]);
                 $this->files[$form]['size'] = $filesize;
 
                 if ($this->options['detectInfos']) {

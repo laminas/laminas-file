@@ -1,11 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\File;
 
+use ArrayIterator;
 use Laminas\File\ClassFileLocator;
 use Laminas\File\Exception;
 use Laminas\File\PhpClassFile;
 use PHPUnit\Framework\TestCase;
+
+use function array_merge;
+use function array_reduce;
+use function iterator_to_array;
+use function preg_match;
+use function sort;
+use function strpos;
 
 class ClassFileLocatorTest extends TestCase
 {
@@ -18,7 +28,7 @@ class ClassFileLocatorTest extends TestCase
 
     public function testConstructorThrowsInvalidArgumentExceptionForNonDirectoryIteratorArgument()
     {
-        $iterator = new \ArrayIterator([]);
+        $iterator = new ArrayIterator([]);
 
         $this->expectException(Exception\InvalidArgumentException::class);
 
@@ -36,7 +46,7 @@ class ClassFileLocatorTest extends TestCase
     public function testIterationShouldReturnOnlyPhpFilesContainingClasses()
     {
         $locator = new ClassFileLocator(__DIR__);
-        $found = false;
+        $found   = false;
         foreach ($locator as $file) {
             if (preg_match('/locator-should-skip-this\.php$/', $file->getFilename())) {
                 $found = true;
@@ -48,7 +58,7 @@ class ClassFileLocatorTest extends TestCase
     public function testIterationShouldReturnInterfaces()
     {
         $locator = new ClassFileLocator(__DIR__);
-        $found = false;
+        $found   = false;
         foreach ($locator as $file) {
             if (preg_match('/LocatorShouldFindThis\.php$/', $file->getFilename())) {
                 $found = true;
@@ -60,7 +70,7 @@ class ClassFileLocatorTest extends TestCase
     public function testIterationShouldInjectNamespaceInFoundItems()
     {
         $locator = new ClassFileLocator(__DIR__);
-        $found = false;
+        $found   = false;
         foreach ($locator as $file) {
             $classes = $file->getClasses();
             foreach ($classes as $class) {
@@ -84,7 +94,7 @@ class ClassFileLocatorTest extends TestCase
     public function testIterationShouldInjectClassInFoundItems()
     {
         $locator = new ClassFileLocator(__DIR__);
-        $found = false;
+        $found   = false;
         foreach ($locator as $file) {
             $classes = $file->getClasses();
             foreach ($classes as $class) {
@@ -97,10 +107,10 @@ class ClassFileLocatorTest extends TestCase
 
     public function testIterationShouldFindMultipleClassesInMultipleNamespacesInSinglePhpFile()
     {
-        $locator = new ClassFileLocator(__DIR__);
-        $foundFirst = false;
+        $locator     = new ClassFileLocator(__DIR__);
+        $foundFirst  = false;
         $foundSecond = false;
-        $foundThird = false;
+        $foundThird  = false;
         $foundFourth = false;
         foreach ($locator as $file) {
             if (preg_match('/MultipleClassesInMultipleNamespaces\.php$/', $file->getFilename())) {
@@ -133,7 +143,7 @@ class ClassFileLocatorTest extends TestCase
      */
     public function testIterationShouldNotCountFQCNScalarResolutionConstantAsClass()
     {
-        foreach (new ClassFileLocator(__DIR__ .'/TestAsset') as $file) {
+        foreach (new ClassFileLocator(__DIR__ . '/TestAsset') as $file) {
             if (! preg_match('/ClassNameResolutionCompatibility\.php$/', $file->getFilename())) {
                 continue;
             }
@@ -148,12 +158,12 @@ class ClassFileLocatorTest extends TestCase
     {
         $classFileLocator = new ClassFileLocator(__DIR__ . '/TestAsset/Anonymous');
 
-        $classFiles = \iterator_to_array($classFileLocator);
+        $classFiles = iterator_to_array($classFileLocator);
 
         $this->assertCount(1, $classFiles);
 
-        $classNames = \array_reduce($classFiles, function (array $classNames, PhpClassFile $classFile) {
-            return \array_merge(
+        $classNames = array_reduce($classFiles, function (array $classNames, PhpClassFile $classFile) {
+            return array_merge(
                 $classNames,
                 $classFile->getClasses()
             );
@@ -173,12 +183,12 @@ class ClassFileLocatorTest extends TestCase
     {
         $classFileLocator = new ClassFileLocator(__DIR__ . '/TestAsset/WithMethodsNamedAfterKeywords');
 
-        $classFiles = \iterator_to_array($classFileLocator);
+        $classFiles = iterator_to_array($classFileLocator);
 
         $this->assertCount(2, $classFiles);
 
-        $classNames = \array_reduce($classFiles, function (array $classNames, PhpClassFile $classFile) {
-            return \array_merge(
+        $classNames = array_reduce($classFiles, function (array $classNames, PhpClassFile $classFile) {
+            return array_merge(
                 $classNames,
                 $classFile->getClasses()
             );
@@ -198,7 +208,7 @@ class ClassFileLocatorTest extends TestCase
     public function testIterationFindsClassInAFileWithUseFunction()
     {
         $locator = new ClassFileLocator(__DIR__);
-        $found = false;
+        $found   = false;
 
         foreach ($locator as $file) {
             if (preg_match('/ContainsUseFunction\.php$/', $file->getFilename())) {
