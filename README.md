@@ -4,7 +4,7 @@
 > This package is **abandoned** and will receive no further development.
 >
 > See the Technical Steering Committee [meeting minutes](https://github.com/laminas/technical-steering-committee/blob/main/meetings/minutes/2024-11-04-TSC-Minutes.md#archive--abandon-various-legacy-libraries).
- 
+
 > ## 🇷🇺 Русским гражданам
 >
 > Мы, участники Laminas, родились и живем в разных странах. У многих из нас есть друзья, родственники и коллеги как в России, так и в Украине. Некоторые из нас родились в России. Некоторые из нас живут в России. У некоторых бабушки и дедушки сражались с фашистами во Второй мировой войне. Здесь никто не поддерживает фашизм.
@@ -24,5 +24,4 @@
 laminas-file provides a `ClassFileLocator` for locating PHP files containing
 classes, abstract classes, interfaces, and traits in a specified tree.
 
-- File issues at https://github.com/laminas/laminas-file/issues
 - Documentation is at https://docs.laminas.dev/laminas-file/
