@@ -5,7 +5,7 @@ nav:
     - Intro: intro.md
     - ClassFileLocator: class-file-locator.md
 site_name: laminas-file (Abandoned)
-site_description: laminas-file (Abandoned)
+site_description: Locate PHP class files
 repo_url: 'https://github.com/laminas/laminas-file'
 extra:
     project: Components
